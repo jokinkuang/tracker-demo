@@ -1,0 +1,29 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_7
+
+repositories {
+    mavenLocal()
+    jcenter()
+}
+
+dependencies {
+    compile gradleApi()
+    compile 'com.android.tools.build:gradle:3.2.1'
+}
+
+//publish to local directory
+def versionName = "1.0.0"
+def localMavenRepo = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+group "com.uc.plugin"
+version versionName
+
+uploadArchives{ //当前项目可以发布到本地文件夹中
+    repositories {
+        mavenDeployer {
+            repository(url: uri(localMavenRepo)) //定义本地maven仓库的地址
+        }
+    }
+}
